@@ -36,5 +36,10 @@ body {
 
   .queenBlack {
     position: absolute;
+    }
+
+    .selected {
+        box-shadow: 0 0 0 2px red inset; /* Change 'red' to your preferred border color */
+    
 }
   
