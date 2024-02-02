@@ -162,9 +162,11 @@ function GetBlackPawnMoves (piece) {
 
 
 
+
 tiles.forEach(tile => {
     tile.addEventListener('click', () => {
-  
+
+      console.log(tile.dataset.identifier)
       //Tile border on click
       // Remove the 'selected' class from the previously selected tile
       if (previouslySelectedTile !== null) {
@@ -172,12 +174,29 @@ tiles.forEach(tile => {
       }
       // Add the 'selected' class to the clicked tile
       tile.classList.add('selected');
-      previouslySelectedTile = tile;
 
+
+      //if the selected piece is not null, move it to the clicked tile
+      //check if the clicked tile is in the possible moves array
+      //If the move is valid, move the piece to the clicked tile and clear the possible moves array and remove the pieces previous tiles image
+        if (selectedPiece !== null) {
+            if (possibleMoves.includes(tile.dataset.identifier)) {
+                previouslySelectedTile = tile
+                console.log("Move piece to " + tile.dataset.identifier);
+                selectedPiece.position = tile.dataset.identifier;
+                UpdateBoard();
+                possibleMoves = [];
+
+                //Remove the image of the piece on the previous tile
+                previouslySelectedTile.innerHTML = '';
+            }
+            
+        }
+        
 
 
   
-      if (curplayer == player1) {
+      if (curplayer == player1 && selectedPiece == null) {
           for (let i = 0; i < pieces.length; i++) {
               if (tile.dataset.identifier === pieces[i].position && pieces[i].color === 'white') {
                   selectedPiece = pieces[i];
@@ -190,7 +209,7 @@ tiles.forEach(tile => {
               }
           }
         }
-        else if (curplayer == player2) {
+        else if (curplayer == player2 && selectedPiece == null) {
             for (let i = 0; i < pieces.length; i++) {
                 if (tile.dataset.identifier === pieces[i].position && pieces[i].color === 'black') {
                     selectedPiece = pieces[i];
